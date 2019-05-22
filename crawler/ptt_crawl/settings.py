@@ -14,12 +14,12 @@ BOT_NAME = 'ptt_crawl'
 SPIDER_MODULES = ['ptt_crawl.spiders']
 NEWSPIDER_MODULE = 'ptt_crawl.spiders'
 FEED_EXPORT_ENCODING = 'utf-8'
-DOWNLOAD_DELAY = 0.2
+# DOWNLOAD_DELAY = 0.2
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'ptt_crawl (+http://www.yourdomain.com)'
-
+# USER_AGENT = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # LOG_LEVEL
 LOG_LEVEL = 'INFO'
@@ -30,13 +30,13 @@ LOG_LEVEL = 'INFO'
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 0.01
+DOWNLOAD_DELAY = 2
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -96,9 +96,11 @@ ITEM_PIPELINES = {
     'ptt_crawl.pipelines.MongoDBPipeline': 300,
 }
 
+# MONGODB_HOST = "mongodb+srv://apple:1234@cluster0-x7xhv.mongodb.net/test?retryWrites=true"
 MONGODB_HOST = "localhost"
+
 MONGODB_PORT = 27017
-MONGODB_DB = "ptt_static"
-MONGODB_DB_USER = "user"
+MONGODB_DB = "new_statistic"
+MONGODB_DB_USER = "ptt_static.user"
 MONGODB_DB_ARTICLE = "article"
 MONGODB_DB_LOGS = "logs"

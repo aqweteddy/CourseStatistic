@@ -13,7 +13,7 @@ class MongoDBPipeline:
         """
         pyMongo initialize
         """
-        client = pymongo.MongoClient(host=settings['MONGODB_HOST'], port=settings['MONGODB_PORT'])
+        client = pymongo.MongoClient(settings['MONGODB_HOST'])
         tdb = client[settings['MONGODB_DB']]
         self.cur_article = tdb[settings['MONGODB_DB_ARTICLE']]
         self.cur_user = tdb[settings['MONGODB_DB_USER']]
