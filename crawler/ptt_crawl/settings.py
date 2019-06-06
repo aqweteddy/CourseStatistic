@@ -17,59 +17,59 @@ FEED_EXPORT_ENCODING = 'utf-8'
 # DOWNLOAD_DELAY = 0.2
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'ptt_crawl (+http://www.yourdomain.com)'
-# USER_AGENT = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
+USER_AGENT = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = False
+ROBOTSTXT_OBEY = True
 
 # LOG_LEVEL
 LOG_LEVEL = 'INFO'
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 16
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
 DOWNLOAD_DELAY = 2
 # The download delay setting will honor only one of:
-#CONCURRENT_REQUESTS_PER_DOMAIN = 16
-#CONCURRENT_REQUESTS_PER_IP = 16
+CONCURRENT_REQUESTS_PER_DOMAIN = 16
+CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-COOKIES_ENABLED = False
+COOKIES_ENABLED = True
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
 
 # Override the default request headers:
-#DEFAULT_REQUEST_HEADERS = {
+# DEFAULT_REQUEST_HEADERS = {
 #   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
 #   'Accept-Language': 'en',
-#}
+# }
 
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
+# SPIDER_MIDDLEWARES = {
 #    'ptt_crawl.middlewares.PttCrawlSpiderMiddleware': 543,
-#}
+# }
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
+# DOWNLOADER_MIDDLEWARES = {
 #    'ptt_crawl.middlewares.PttCrawlDownloaderMiddleware': 543,
-#}
+# }
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
-#EXTENSIONS = {
+# EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
-#}
+# }
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
+# ITEM_PIPELINES = {
 #    'ptt_crawl.pipelines.PttCrawlPipeline': 300,
-#}
+# }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -99,8 +99,15 @@ ITEM_PIPELINES = {
 # MONGODB_HOST = "mongodb+srv://apple:1234@cluster0-x7xhv.mongodb.net/test?retryWrites=true"
 MONGODB_HOST = "localhost"
 
+# MONGODB_PORT = 27017
+# MONGODB_DB = "new_statistic"
+# MONGODB_DB_USER = "ptt_static.user"
+# MONGODB_DB_ARTICLE = "article"
+# MONGODB_DB_LOGS = "logs"
+
+MONGODB_HOST = "mongodb://user:1234@cluster0-shard-00-00-4uiip.gcp.mongodb.net:27017,cluster0-shard-00-01-4uiip.gcp.mongodb.net:27017,cluster0-shard-00-02-4uiip.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority"
 MONGODB_PORT = 27017
-MONGODB_DB = "new_statistic"
-MONGODB_DB_USER = "ptt_static.user"
+MONGODB_DB = "ptt_static"
+MONGODB_DB_USER = "user"
 MONGODB_DB_ARTICLE = "article"
 MONGODB_DB_LOGS = "logs"

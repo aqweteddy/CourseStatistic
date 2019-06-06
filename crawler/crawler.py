@@ -10,7 +10,7 @@ import time
 class PttCrawlerBase:
     FOLDER = os.path.split(os.path.realpath(__file__))[0]
 
-    def __init__(self, board='Gossiping', pages=1, file=None, title_lim=None):
+    def __init__(self, board='Gossiping', from_page=-1, pages=1, file=None, title_lim=None):
         """
         :param board: board
         :param pages: crawled page
@@ -25,6 +25,8 @@ class PttCrawlerBase:
             com += '-o {} '.format(file)
         # page
         com += '-a pages={:d} '.format(pages)
+        com += '-a from_page={:d} '.format(from_page)
+
         # board
         com += '-a board={} '.format(board)
 
@@ -52,11 +54,13 @@ class PttCrawlerBase:
 
 
 class PttCrawlerMongoDB(PttCrawlerBase):
-    def __init__(self, board='Gossiping', pages=1, title_lim=None, only_connect_db=False):
+    def __init__(self, board='Gossiping', pages=1, from_page=-1, title_lim=None, only_connect_db=False):
         if not only_connect_db:
-            super(PttCrawlerMongoDB, self).__init__(board=board, pages=pages, file=None, title_lim=title_lim)
+            super(PttCrawlerMongoDB, self).__init__(
+                board=board, pages=pages, from_page=from_page, file=None, title_lim=title_lim)
         # MongoDB
-        client = pymongo.MongoClient(host=settings.MONGODB_HOST, port=settings.MONGODB_PORT)
+        client = pymongo.MongoClient(
+            host=settings.MONGODB_HOST, port=settings.MONGODB_PORT)
         self.__db = client[settings.MONGODB_DB]
         self.article = self.__db.article
         self.user = self.__db.user
@@ -106,7 +110,8 @@ class PttCrawlerJson(PttCrawlerBase):
     def __init__(self, board='Gossiping', pages=1, title_lim=None, file='tmp.json', save_db=False):
         if not save_db:
             settings.ITEM_PIPELINES = []
-        super(PttCrawlerJson, self).__init__(board=board, pages=pages, file=file, title_lim=title_lim)
+        super(PttCrawlerJson, self).__init__(board=board,
+                                             pages=pages, file=file, title_lim=title_lim)
 
 
 def main():

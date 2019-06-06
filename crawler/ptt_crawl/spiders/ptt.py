@@ -28,16 +28,16 @@ class PttSpiderByPage(scrapy.Spider):
     now_pages = 0
 
     def __init__(self, *args, **kwargs):
-        # settings['MONGODB_DOC'] = kwargs['board']
         super(PttSpiderByPage, self).__init__(*args, **kwargs)
         self.item = PttCrawlItem()
         self.item['board'] = kwargs['board']
-        self.start_urls = ['https://www.ptt.cc/bbs/%s/index.html' %
-                           (kwargs['board'])] if 'board' in kwargs.keys() else []
+        self.start_urls = ['https://www.ptt.cc/bbs/%s/index%s.html' %
+                           (kwargs['board'], kwargs['from_page'])] if 'board' in kwargs.keys() else []
         self.title_lim = kwargs['title_lim'].split(
             ',')[0:-1] if 'title_lim' in kwargs.keys() else []
         self.MAX_PAGES = int(
-            kwargs['pages']) if 'pages' in kwargs.keys() else 1
+            kwargs['from_page']) if 'from_page' in kwargs.keys() else 1
+        print(self.start_urls)
 
     def start_requests(self):
         yield scrapy.Request(self.start_urls[0], cookies={'over18': '1'})
@@ -45,7 +45,7 @@ class PttSpiderByPage(scrapy.Spider):
     def parse(self, resp):
         self.now_pages += 1
         print('Now at %s, page #%d' %
-              (str(resp).split(' ')[1][:-2], self.now_pages))
+              (str(resp).split(' ')[1][:-1], self.now_pages))
 
         for arti in resp.xpath('//div[@class="r-ent"]/div[@class="title"]/a'):
             # get title
@@ -63,7 +63,7 @@ class PttSpiderByPage(scrapy.Spider):
         if self.now_pages < self.MAX_PAGES:
             # goto next page
             next_page = resp.xpath(
-                '//div[@id="action-bar-container"]//a[contains(text(), "上頁")]/@href')
+                '//div[@id="action-bar-container"]//a[contains(text(), "下頁")]/@href')
             if next_page:
                 url = resp.urljoin(next_page[0].extract())
                 yield scrapy.Request(url=url, cookies={'over18': '1'}, callback=self.parse)
@@ -116,7 +116,7 @@ class PttSpiderByPage(scrapy.Spider):
         # get ip
         for f2 in sel.xpath('./span[@class="f2"]/text()').getall():
             if '※ 發信站: 批踢踢實業坊(ptt.cc), 來自:' in f2:
-                self.item['ip_author'] = f2.split('來自: ')[1]
+                self.item['ip_author'] = f2.split('來自: ')[1].strip()
                 break
 
         # get comment, score

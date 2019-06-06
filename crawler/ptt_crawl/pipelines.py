@@ -24,7 +24,8 @@ class MongoDBPipeline:
         """
         save data into DB.
         """
-
+        if len(item['comment']) < 5:
+            return
         # self.cur_article
         if self.cur_article.find({'url': item['url']}).count() == 0:
             self.cur_article.insert(dict(item))
