@@ -32,6 +32,8 @@ def cut_user(cur):
     for col in cur.find({}).batch_size(1):
         item = []
         for data in col['data']:
+            if 'text_cut' in data.keys():
+                continue
             item.append(data)
             tmp = [(w.word, w.flag)
                    for w in pseg.cut(data['text']) if w.word.strip()]
@@ -67,4 +69,7 @@ def main():
 
 if __name__ == "__main__":
     while 1:
-        main()
+        try:
+            main()
+        except:
+            pass
