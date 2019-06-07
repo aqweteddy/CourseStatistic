@@ -32,9 +32,9 @@ def cut_user(cur):
     for col in cur.find({}).batch_size(1):
         item = []
         for data in col['data']:
+            item.append(data)
             if 'text_cut' in data.keys():
                 continue
-            item.append(data)
             tmp = [(w.word, w.flag)
                    for w in pseg.cut(data['text']) if w.word.strip()]
             item[-1]['text_cut'] = [w[0] for w in tmp]
@@ -44,12 +44,10 @@ def cut_user(cur):
         print(col['_id'], col['id'], file=sys.stderr)
 
 
-def main():
+def main(tdb):
     # connect to database
 
-    client = pm.MongoClient(
-        'mongodb://user:1234@cluster0-shard-00-00-4uiip.gcp.mongodb.net:27017,cluster0-shard-00-01-4uiip.gcp.mongodb.net:27017,cluster0-shard-00-02-4uiip.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority')
-    tdb = client['ptt_static']
+    
     cur_article = tdb['article']
     cur_user = tdb['user']
 
@@ -68,8 +66,11 @@ def main():
 
 
 if __name__ == "__main__":
+    client = pm.MongoClient(
+        'mongodb://user:1234@cluster0-shard-00-00-4uiip.gcp.mongodb.net:27017,cluster0-shard-00-01-4uiip.gcp.mongodb.net:27017,cluster0-shard-00-02-4uiip.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority')
+    tdb = client['ptt_static']
     while 1:
         try:
-            main()
+            main(tdb)
         except:
             pass
