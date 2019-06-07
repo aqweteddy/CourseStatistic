@@ -28,6 +28,8 @@ def cut_article(cur_article):
             cur_article.update({'url': col['url']}, col)
         except:
             pass
+
+
 def cut_user(cur):
     for col in cur.find({}).batch_size(1):
         item = []
@@ -41,13 +43,11 @@ def cut_user(cur):
             item[-1]['text_speech'] = [w[1] for w in tmp]
         col['data'] = item
         cur.update({'_id': col['_id']}, col)
-        print(col['_id'], col['id'], file=sys.stderr)
+        print(col['_id'], col['id'], col['title'], file=sys.stderr)
 
 
 def main(tdb):
     # connect to database
-
-    
     cur_article = tdb['article']
     cur_user = tdb['user']
 
